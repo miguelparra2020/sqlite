@@ -9,6 +9,7 @@ const fastify = require("fastify")({
   logger: false,
 });
 
+
 fastify.register(require("@fastify/formbody"));
 
 const db = require("./sqlite.js");
