@@ -75,18 +75,32 @@ const insertEstadistica = async (estadistica) => {
 };
 
 // Actualizar un registro en la tabla "estadistica" por su ID
-const updateEstadistica = async (id, newData) => {
-  try {
-    const success = await db.run(
-      "Update estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
-      [...Object.values(newData), id]
-    );
+// const updateEstadistica = async (id, newData) => {
+//   try {
+//     const success = await db.run(
+//       "Update estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
+//       [...Object.values(newData), id]
+//     );
     
-    return success.changes > 0;
+//     return success.changes > 0;
+//   } catch (dbError) {
+//     console.error(dbError);
+//     throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
+//   }
+// };
+
+const updateEstadistica = async (id, newData) => {
+  let success = false;
+  try {
+    success = await db.run(
+      "Update estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
+      newData,
+      id
+    );
   } catch (dbError) {
     console.error(dbError);
-    throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
   }
+  return success.changes > 0 ? true : false;
 };
 
 // Eliminar un registro de la tabla "estadistica" por su ID
