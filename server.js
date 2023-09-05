@@ -78,6 +78,9 @@ fastify.put("/estadisticas/:id", async (request, reply) => {
 
   if (success) {
     data.success = true;
+    // Consultar el registro actualizado
+    const updatedEstadistica = await db.getEstadisticaById(id);
+    data.updatedEstadistica = updatedEstadistica; // Agregar el registro actualizado a la respuesta
   } else {
     data.success = false;
     data.error = "Error al actualizar la estadística.";
