@@ -89,6 +89,19 @@ const insertEstadistica = async (estadistica) => {
 //   }
 // };
 
+const updateEstadistica = async (id, newData) => {
+  let success = false;
+  try {
+    success = await db.run(
+      "Update estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
+      ...Object.values(newData),
+      id
+    );
+  } catch (dbError) {
+    console.error(dbError);
+  }
+  return success.changes > 0 ? true : false;
+};
 
 // Eliminar un registro de la tabla "estadistica" por su ID
 const deleteEstadisticaById = async (id) => {
@@ -106,6 +119,7 @@ module.exports = {
   getAllEstadisticas,
   getEstadisticaById,
   insertEstadistica,
+  updateEstadistica,
   deleteEstadisticaById,
   
   // Get the messages in the database
@@ -136,20 +150,6 @@ module.exports = {
     try {
       success = await db.run(
         "Update Messages SET message = ? WHERE id = ?",
-        message,
-        id
-      );
-    } catch (dbError) {
-      console.error(dbError);
-    }
-    return success.changes > 0 ? true : false;
-  },
-
-  updateEstadistica: async (id, message) => {
-    let success = false;
-    try {
-      success = await db.run(
-        "Updateestadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
         message,
         id
       );
