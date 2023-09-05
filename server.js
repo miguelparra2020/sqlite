@@ -68,6 +68,7 @@ fastify.post("/estadisticas", async (request, reply) => {
   reply.status(status).send(data);
 });
 
+
 // Ruta para actualizar una estadística existente por su ID (PUT)
 fastify.put("/estadisticas/:id", async (request, reply) => {
   let data = {};
