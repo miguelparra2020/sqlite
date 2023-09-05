@@ -151,6 +151,20 @@ fastify.put("/message", async (request, reply) => {
   reply.status(status).send(data);
 });
 
+// Update text for an message (auth)
+fastify.put("/estadistica", async (request, reply) => {
+  let data = {};
+  if ( !request.body || !request.body.id || !request.body.message)
+    data.success = false;
+  else
+    data.success = await db.updateEstadistica(
+      request.body.id,
+      request.body.message
+    );
+  const status = data.success ? 201 : auth ? 400 : 401;
+  reply.status(status).send(data);
+});
+
 // Delete a message (auth)
 fastify.delete("/message", async (request, reply) => {
   let data = {};
