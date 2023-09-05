@@ -40,11 +40,30 @@ fastify.get("/messages", async (request, reply) => {
   const status = data.error ? 400 : 200;
   reply.status(status).send(data);
 });
+
+//Ruta para obtener todos los registros
 fastify.get("/estadisticas", async (request, reply) => {
   let data = {};
   data.estadisticas = await db.getAllEstadisticas();
   if (!data.estadisticas) data.error = errorMessage;
   const status = data.error ? 400 : 200;
+  reply.status(status).send(data);
+});
+
+// Ruta para agregar una nueva estadística (POST)
+fastify.post("/estadisticas", async (request, reply) => {
+  let data = {};
+  const estadistica = request.body; // Supongo que el cuerpo de la solicitud contiene los datos de la estadística
+  const success = await db.insertEstadistica(estadistica);
+
+  if (success) {
+    data.success = true;
+  } else {
+    data.success = false;
+    data.error = "Error al insertar la estadística.";
+  }
+
+  const status = success ? 201 : 400;
   reply.status(status).send(data);
 });
 

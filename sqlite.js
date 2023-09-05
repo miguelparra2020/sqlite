@@ -39,6 +39,7 @@ dbWrapper
     }
   });
 
+  //Obtener todos los registros de estadisticas
   const getAllEstadisticas = async () => {
     try {
       return await db.all("SELECT * FROM estadistica");
@@ -48,9 +49,25 @@ dbWrapper
     }
   }; 
 
+  // Insertar un nuevo registro en la tabla "estadistica"
+const insertEstadistica = async (estadistica) => {
+  try {
+    const success = await db.run(
+      "INSERT INTO estadistica (id, fecha_ingreso, hora_ingreso, pais, ciudad, tiempo, ruta, dispositivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      Object.values(estadistica)
+    );
+    
+    return success.changes > 0;
+  } catch (dbError) {
+    console.error(dbError);
+    throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
+  }
+};
+
 // Server script calls these methods to connect to the db
 module.exports = {
   getAllEstadisticas,
+  insertEstadistica,
   
   // Get the messages in the database
   getMessages: async () => {
