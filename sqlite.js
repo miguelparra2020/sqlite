@@ -78,7 +78,7 @@ const insertEstadistica = async (estadistica) => {
 const updateEstadistica = async (id, newData) => {
   try {
     const success = await db.run(
-      "UPDATE estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
+      "Update estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
       [...Object.values(newData), id]
     );
     
