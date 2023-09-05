@@ -40,6 +40,13 @@ fastify.get("/messages", async (request, reply) => {
   const status = data.error ? 400 : 200;
   reply.status(status).send(data);
 });
+fastify.get("/estadisticas", async (request, reply) => {
+  let data = {};
+  data.estadisticas = await db.getAllEstadisticas();
+  if (!data.estadisticas) data.error = errorMessage;
+  const status = data.error ? 400 : 200;
+  reply.status(status).send(data);
+});
 
 // Add new message (auth)
 fastify.post("/message", async (request, reply) => {

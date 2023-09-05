@@ -39,8 +39,18 @@ dbWrapper
     }
   });
 
+  const getAllEstadisticas = async () => {
+    try {
+      return await db.all("SELECT * FROM estadistica");
+    } catch (dbError) {
+      console.error(dbError);
+      throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
+    }
+  }; 
+
 // Server script calls these methods to connect to the db
 module.exports = {
+  getAllEstadisticas,
   
   // Get the messages in the database
   getMessages: async () => {
