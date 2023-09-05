@@ -108,6 +108,24 @@ fastify.put("/estadisticas/:id", async (request, reply) => {
   reply.status(status).send(data);
 });
 
+// Ruta para eliminar una estadística por su ID (DELETE)
+fastify.delete("/estadisticas/:id", async (request, reply) => {
+  let data = {};
+  const id = request.params.id; // Obtener el ID de la URL
+  const success = await db.deleteEstadisticaById(id);
+
+  if (success) {
+    data.success = true;
+    data.message = "Estadística eliminada con éxito.";
+  } else {
+    data.success = false;
+    data.error = "Error al eliminar la estadística.";
+  }
+
+  const status = success ? 200 : 400;
+  reply.status(status).send(data);
+});
+
 // Add new message (auth)
 fastify.post("/message", async (request, reply) => {
   let data = {};

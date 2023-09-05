@@ -89,12 +89,24 @@ const updateEstadistica = async (id, newData) => {
   }
 };
 
+// Eliminar un registro de la tabla "estadistica" por su ID
+const deleteEstadisticaById = async (id) => {
+  try {
+    const success = await db.run("DELETE FROM estadistica WHERE id = ?", id);
+    return success.changes > 0;
+  } catch (dbError) {
+    console.error(dbError);
+    throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
+  }
+};
+
 // Server script calls these methods to connect to the db
 module.exports = {
   getAllEstadisticas,
   getEstadisticaById,
   insertEstadistica,
   updateEstadistica,
+  deleteEstadisticaById,
   
   // Get the messages in the database
   getMessages: async () => {
