@@ -51,6 +51,24 @@ fastify.get("/estadisticas", async (request, reply) => {
   reply.status(status).send(data);
 });
 
+// Ruta para obtener una estadística por su ID (GET)
+fastify.get("/estadisticas/:id", async (request, reply) => {
+  let data = {};
+  const id = request.params.id; // Obtener el ID de la URL
+  const estadistica = await db.getEstadisticaById(id);
+
+  if (estadistica) {
+    data.success = true;
+    data.estadistica = estadistica; // Agregar la estadística obtenida a la respuesta
+  } else {
+    data.success = false;
+    data.error = "Estadística no encontrada.";
+  }
+
+  const status = estadistica ? 200 : 404;
+  reply.status(status).send(data);
+});
+
 // Ruta para agregar una nueva estadística (POST)
 fastify.post("/estadisticas", async (request, reply) => {
   let data = {};

@@ -49,6 +49,16 @@ dbWrapper
     }
   }; 
 
+  // Obtener un registro de la tabla "estadistica" por su ID
+const getEstadisticaById = async (id) => {
+  try {
+    return await db.get("SELECT * FROM estadistica WHERE id = ?", id);
+  } catch (dbError) {
+    console.error(dbError);
+    throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
+  }
+};
+
   // Insertar un nuevo registro en la tabla "estadistica"
 const insertEstadistica = async (estadistica) => {
   try {
@@ -82,6 +92,7 @@ const updateEstadistica = async (id, newData) => {
 // Server script calls these methods to connect to the db
 module.exports = {
   getAllEstadisticas,
+  getEstadisticaById,
   insertEstadistica,
   updateEstadistica,
   
