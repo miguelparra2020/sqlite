@@ -64,10 +64,26 @@ const insertEstadistica = async (estadistica) => {
   }
 };
 
+// Actualizar un registro en la tabla "estadistica" por su ID
+const updateEstadistica = async (id, newData) => {
+  try {
+    const success = await db.run(
+      "UPDATE estadistica SET fecha_ingreso = ?, hora_ingreso = ?, pais = ?, ciudad = ?, tiempo = ?, ruta = ?, dispositivo = ? WHERE id = ?",
+      [...Object.values(newData), id]
+    );
+    
+    return success.changes > 0;
+  } catch (dbError) {
+    console.error(dbError);
+    throw dbError; // Puedes manejar el error de acuerdo a tus necesidades
+  }
+};
+
 // Server script calls these methods to connect to the db
 module.exports = {
   getAllEstadisticas,
   insertEstadistica,
+  updateEstadistica,
   
   // Get the messages in the database
   getMessages: async () => {
